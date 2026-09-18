@@ -347,6 +347,7 @@ body.light header {
 .video-meta {
     color: var(--muted);
     font-size: 13px;
+    line-height: 1.8;
 }
 
 .player-buttons {
@@ -1228,7 +1229,6 @@ footer {
   import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
   import { getFirestore, collection, getDocs } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
 
-  // استبدل القيم أدناه ببيانات مشروعك الخاصة من لوحة تحكم Firebase
   const firebaseConfig = {
     apiKey: "AIzaSyCSWNi2IRMX_VkmwO-gz7qxn7-3uXMz3oY",
     authDomain: "alamara-365d0.firebaseapp.com",
@@ -1276,13 +1276,18 @@ footer {
       const querySnapshot = await getDocs(collection(db, "videos"));
       const firebaseVideos = [];
       querySnapshot.forEach((doc) => {
-        firebaseVideos.push({ id: doc.id, ...doc.data() });
+        const data = doc.data();
+        // دعم التوافق مع حقل url أو videoUrl القادم من لوحة التحكم
+        firebaseVideos.push({ 
+            id: doc.id, 
+            ...data, 
+            url: data.url || data.videoUrl || "" 
+        });
       });
 
       if (firebaseVideos.length > 0) {
         videos = firebaseVideos;
         filteredVideos = [...videos];
-        showToast("تم جلب التلاوات من قاعدة البيانات بنجاح");
       }
     } catch (error) {
       console.log("خطأ في جلب البيانات من فايربيس، سيتم استخدام البيانات المحلية:", error);
@@ -1327,12 +1332,12 @@ footer {
 
         item.innerHTML = `
             <div class="thumbnail">
-                <img src="${video.thumbnail}" alt="${escapeHtml(video.title)}" loading="lazy">
+                <img src="${video.thumbnail || 'https://images.unsplash.com/photo-1609599006353-e629aaabfeae?auto=format&fit=crop&w=500&q=80'}" alt="${escapeHtml(video.title)}" loading="lazy">
                 <div class="play-overlay">▶</div>
             </div>
             <div class="item-info">
                 <div class="item-title">${escapeHtml(video.title)}</div>
-                <div class="item-meta">${escapeHtml(video.reader)} • ${escapeHtml(video.duration)}</div>
+                <div class="item-meta">${escapeHtml(video.reader || 'غير محدد')} • ${escapeHtml(video.duration || '00:00')}</div>
             </div>
             <button class="item-favorite ${isFavorite ? "active" : ""}" title="المفضلة" onclick="favoriteFromList(event, '${video.id}')">
                 ${isFavorite ? "♥" : "♡"}
@@ -1354,22 +1359,23 @@ footer {
 
     placeholder.classList.remove("show");
 
-    // التحقق مما إذا كان الرابط يتبع ليوتيوب لعرضه مباشرة عبر iframe وبصيغة التضمين الصحيحة
-    if (video.url.includes("youtube.com") || video.url.includes("youtu.be") || video.url.includes("youtube-nocookie.com")) {
+    // التحقق مما إذا كان الرابط يتبع ليوتيوب وتحويله لعرض الفيديو مباشرة وتجهيز الرابط الأصلي تحته
+    const rawUrl = video.url || "";
+    if (rawUrl.includes("youtube.com") || rawUrl.includes("youtu.be") || rawUrl.includes("youtube-nocookie.com")) {
         videoPlayer.style.display = "none";
         videoIframe.style.display = "block";
         videoPlayer.pause();
 
-        let embedUrl = video.url;
+        let embedUrl = rawUrl;
         let videoId = "";
-        if (video.url.includes("embed/")) {
-            videoId = video.url.split("embed/")[1].split("?")[0];
+        if (rawUrl.includes("embed/")) {
+            videoId = rawUrl.split("embed/")[1].split("?")[0];
             embedUrl = `https://www.youtube-nocookie.com/embed/${videoId}?autoplay=1`;
-        } else if (video.url.includes("watch?v=")) {
-            videoId = video.url.split("watch?v=")[1].split("&")[0];
+        } else if (rawUrl.includes("watch?v=")) {
+            videoId = rawUrl.split("watch?v=")[1].split("&")[0];
             embedUrl = `https://www.youtube-nocookie.com/embed/${videoId}?autoplay=1`;
-        } else if (video.url.includes("youtu.be/")) {
-            videoId = video.url.split("youtu.be/")[1].split("?")[0];
+        } else if (rawUrl.includes("youtu.be/")) {
+            videoId = rawUrl.split("youtu.be/")[1].split("?")[0];
             embedUrl = `https://www.youtube-nocookie.com/embed/${videoId}?autoplay=1`;
         }
         videoIframe.src = embedUrl;
@@ -1378,16 +1384,24 @@ footer {
         videoIframe.style.display = "none";
         videoPlayer.style.display = "block";
         videoIframe.src = "";
-        videoPlayer.src = video.url;
-        videoPlayer.poster = video.thumbnail;
+        videoPlayer.src = rawUrl;
+        videoPlayer.poster = video.thumbnail || "";
         videoPlayer.load();
         videoPlayer.play().catch(() => { showToast("اضغط تشغيل لبدء الفيديو"); });
     }
 
     currentTitle.textContent = video.title;
     
-    // عرض تفاصيل الفيديو ورابطه الحالي بوضوح
-    currentMeta.innerHTML = `القارئ: ${video.reader} • السورة: ${video.surah} • المدة: ${video.duration}<br><span style="color: var(--gold2); word-break: break-all; font-size: 11px;">الرابط: <a href="${video.url}" target="_blank" style="color: inherit; text-decoration: underline;">${video.url}</a></span>`;
+    // استخراج رابط يوتيوب نظيف وأساسي لعرضه تحت الفيديو مباشرة
+    let originalYouTubeLink = rawUrl;
+    if (originalYouTubeLink.includes("embed/")) {
+        originalYouTubeLink = originalYouTubeLink.replace("www.youtube.com/embed/", "www.youtube.com/watch?v=").replace("www.youtube-nocookie.com/embed/", "www.youtube.com/watch?v=");
+    }
+
+    currentMeta.innerHTML = `
+        القارئ: ${escapeHtml(video.reader || 'غير محدد')} • السورة: ${escapeHtml(video.surah || 'غير محدد')} • المدة: ${escapeHtml(video.duration || '00:00')}
+        ${originalYouTubeLink ? `<br><span style="color: var(--gold2); word-break: break-all; font-size: 12px; display: inline-block; margin-top: 5px;">رابط يوتيوب الأساسي: <a href="${originalYouTubeLink}" target="_blank" rel="noopener noreferrer" style="color: #60a5fa; text-decoration: underline;">🔗 ${originalYouTubeLink}</a></span>` : ''}
+    `;
 
     updateFavoriteButton();
     renderVideos();
@@ -1399,7 +1413,7 @@ footer {
         return;
     }
     const video = filteredVideos[currentIndex];
-    if (video.url.includes("youtube.com") || video.url.includes("youtu.be") || video.url.includes("youtube-nocookie.com")) {
+    if (video.url && (video.url.includes("youtube.com") || video.url.includes("youtu.be") || video.url.includes("youtube-nocookie.com"))) {
         showToast("فيديوهات يوتيوب تعمل بالتحكم المباشر داخل المشغل");
         return;
     }
@@ -1533,7 +1547,7 @@ footer {
   }
 
   function escapeHtml(value) {
-    return String(value)
+    return String(value ?? "")
         .replaceAll("&", "&amp;")
         .replaceAll("<", "&lt;")
         .replaceAll(">", "&gt;")
