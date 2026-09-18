@@ -1,0 +1,1510 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#071b16">
+<title>مصحف الفيديو | القرآن الكريم - تصميم: محمود عمارة</title>
+
+<style>
+/* =========================================================
+   RESET
+========================================================= */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+    font-family: "Tahoma", "Arial", sans-serif;
+    background: #071b16;
+    color: #f4ead0;
+    min-height: 100vh;
+    overflow-x: hidden;
+}
+
+button,
+input,
+select {
+    font-family: inherit;
+}
+
+button {
+    cursor: pointer;
+}
+
+/* =========================================================
+   VARIABLES
+========================================================= */
+:root {
+    --bg: #071b16;
+    --bg2: #0b241d;
+    --card: #102e25;
+    --card2: #14382d;
+    --gold: #d6ae55;
+    --gold2: #f0d78c;
+    --text: #f8efd9;
+    --muted: #a9b9b1;
+    --border: rgba(214,174,85,0.22);
+    --shadow: rgba(0,0,0,0.45);
+    --danger: #d85b5b;
+    --success: #63c58a;
+}
+
+/* =========================================================
+   LIGHT MODE
+========================================================= */
+body.light {
+    --bg: #f2efe5;
+    --bg2: #ffffff;
+    --card: #ffffff;
+    --card2: #f5f1e5;
+    --gold: #9a741e;
+    --gold2: #b58b2d;
+    --text: #18231f;
+    --muted: #63716b;
+    --border: rgba(100,75,20,0.18);
+    --shadow: rgba(0,0,0,0.15);
+}
+
+/* =========================================================
+   BACKGROUND
+========================================================= */
+.background {
+    position: fixed;
+    inset: 0;
+    z-index: -5;
+    overflow: hidden;
+    background:
+        radial-gradient(circle at 20% 20%, rgba(214,174,85,0.08), transparent 30%),
+        radial-gradient(circle at 80% 70%, rgba(36,112,82,0.15), transparent 35%),
+        linear-gradient(135deg, var(--bg), var(--bg2));
+}
+
+.background::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    opacity: 0.05;
+    background-image:
+        linear-gradient(30deg, #d6ae55 12%, transparent 12.5%, transparent 87%, #d6ae55 87.5%, #d6ae55),
+        linear-gradient(150deg, #d6ae55 12%, transparent 12.5%, transparent 87%, #d6ae55 87.5%, #d6ae55),
+        linear-gradient(30deg, #d6ae55 12%, transparent 12.5%, transparent 87%, #d6ae55 87.5%, #d6ae55),
+        linear-gradient(150deg, #d6ae55 12%, transparent 12.5%, transparent 87%, #d6ae55 87.5%, #d6ae55);
+    background-size: 80px 140px;
+    background-position: 0 0, 0 0, 40px 70px, 40px 70px;
+}
+
+/* =========================================================
+   HEADER
+========================================================= */
+header {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    backdrop-filter: blur(18px);
+    background: rgba(7,27,22,0.88);
+    border-bottom: 1px solid var(--border);
+}
+
+body.light header {
+    background: rgba(255,255,255,0.9);
+}
+
+.header-inner {
+    width: min(1400px, 94%);
+    margin: auto;
+    min-height: 78px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 20px;
+}
+
+.logo {
+    display: flex;
+    align-items: center;
+    gap: 13px;
+    white-space: nowrap;
+}
+
+.logo-icon {
+    width: 48px;
+    height: 48px;
+    border: 1px solid var(--gold);
+    border-radius: 50%;
+    display: grid;
+    place-items: center;
+    font-size: 25px;
+    color: var(--gold2);
+    box-shadow: 0 0 25px rgba(214,174,85,0.12);
+}
+
+.logo-text h1 {
+    font-size: 19px;
+    color: var(--gold2);
+}
+
+.logo-text span {
+    color: var(--muted);
+    font-size: 11px;
+}
+
+.header-actions {
+    display: flex;
+    align-items: center;
+    gap: 9px;
+}
+
+.icon-btn {
+    width: 42px;
+    height: 42px;
+    border-radius: 50%;
+    border: 1px solid var(--border);
+    background: var(--card);
+    color: var(--text);
+    transition: 0.25s;
+}
+
+.icon-btn:hover {
+    transform: translateY(-2px);
+    border-color: var(--gold);
+    color: var(--gold2);
+}
+
+/* =========================================================
+   HERO
+========================================================= */
+.hero {
+    width: min(1400px, 94%);
+    margin: 35px auto 20px;
+    min-height: 280px;
+    border: 1px solid var(--border);
+    border-radius: 30px;
+    overflow: hidden;
+    position: relative;
+    background:
+        linear-gradient(90deg, rgba(7,27,22,0.95), rgba(7,27,22,0.5)),
+        radial-gradient(circle at 80% 40%, rgba(214,174,85,0.16), transparent 30%),
+        var(--card);
+    display: flex;
+    align-items: center;
+    padding: 50px;
+}
+
+.hero::after {
+    content: "۞";
+    position: absolute;
+    left: 35px;
+    top: 15px;
+    font-size: 180px;
+    color: rgba(214,174,85,0.045);
+    pointer-events: none;
+}
+
+.hero-content {
+    position: relative;
+    z-index: 2;
+    max-width: 700px;
+}
+
+.hero-label {
+    color: var(--gold2);
+    font-size: 14px;
+    margin-bottom: 12px;
+}
+
+.hero h2 {
+    font-size: clamp(28px, 5vw, 52px);
+    line-height: 1.25;
+    margin-bottom: 15px;
+}
+
+.hero p {
+    color: var(--muted);
+    line-height: 1.9;
+    font-size: 15px;
+}
+
+/* =========================================================
+   SEARCH AREA
+========================================================= */
+.controls {
+    width: min(1400px, 94%);
+    margin: 20px auto;
+    display: grid;
+    grid-template-columns: 1fr 210px 210px auto;
+    gap: 12px;
+}
+
+.search-box,
+.select-box {
+    position: relative;
+}
+
+.search-box input,
+.select-box select {
+    width: 100%;
+    height: 52px;
+    border: 1px solid var(--border);
+    outline: none;
+    border-radius: 15px;
+    padding: 0 18px;
+    background: var(--card);
+    color: var(--text);
+    transition: 0.25s;
+}
+
+.search-box input {
+    padding-right: 48px;
+}
+
+.search-box input:focus,
+.select-box select:focus {
+    border-color: var(--gold);
+    box-shadow: 0 0 0 3px rgba(214,174,85,0.08);
+}
+
+.search-icon {
+    position: absolute;
+    right: 17px;
+    top: 15px;
+    color: var(--gold);
+}
+
+.reset-btn {
+    height: 52px;
+    border: 1px solid var(--border);
+    background: var(--card);
+    color: var(--gold2);
+    border-radius: 15px;
+    padding: 0 20px;
+    transition: 0.25s;
+}
+
+.reset-btn:hover {
+    background: var(--gold);
+    color: #111;
+}
+
+/* =========================================================
+   MAIN LAYOUT
+========================================================= */
+.main {
+    width: min(1400px, 94%);
+    margin: 25px auto 60px;
+    display: grid;
+    grid-template-columns: minmax(0, 1.45fr) minmax(300px, 0.65fr);
+    gap: 20px;
+}
+
+/* =========================================================
+   PLAYER
+========================================================= */
+.player-card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 25px;
+    overflow: hidden;
+    box-shadow: 0 20px 50px var(--shadow);
+}
+
+.player-top {
+    position: relative;
+    background: #000;
+    aspect-ratio: 16 / 9;
+}
+
+#videoPlayer {
+    width: 100%;
+    height: 100%;
+    display: block;
+    background: #000;
+}
+
+.player-info {
+    padding: 20px 22px;
+}
+
+.now-playing {
+    color: var(--gold);
+    font-size: 12px;
+    margin-bottom: 8px;
+}
+
+.video-title {
+    font-size: 24px;
+    margin-bottom: 7px;
+}
+
+.video-meta {
+    color: var(--muted);
+    font-size: 13px;
+}
+
+.player-buttons {
+    display: flex;
+    gap: 10px;
+    margin-top: 18px;
+    flex-wrap: wrap;
+}
+
+.control-btn {
+    min-height: 43px;
+    border-radius: 12px;
+    border: 1px solid var(--border);
+    background: var(--card2);
+    color: var(--text);
+    padding: 0 16px;
+    transition: 0.2s;
+}
+
+.control-btn:hover {
+    border-color: var(--gold);
+    color: var(--gold2);
+}
+
+.control-btn.active {
+    background: rgba(214,174,85,0.13);
+    border-color: var(--gold);
+    color: var(--gold2);
+}
+
+/* =========================================================
+   PLAYLIST
+========================================================= */
+.playlist-card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 25px;
+    overflow: hidden;
+    height: fit-content;
+    max-height: 720px;
+    display: flex;
+    flex-direction: column;
+}
+
+.playlist-header {
+    padding: 20px;
+    border-bottom: 1px solid var(--border);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.playlist-header h3 {
+    font-size: 17px;
+}
+
+.count {
+    color: var(--gold);
+    font-size: 12px;
+}
+
+.playlist {
+    overflow-y: auto;
+}
+
+.playlist::-webkit-scrollbar {
+    width: 6px;
+}
+
+.playlist::-webkit-scrollbar-thumb {
+    background: rgba(214,174,85,0.3);
+    border-radius: 10px;
+}
+
+/* =========================================================
+   VIDEO ITEM
+========================================================= */
+.video-item {
+    padding: 12px;
+    display: grid;
+    grid-template-columns: 105px 1fr auto;
+    gap: 12px;
+    border-bottom: 1px solid rgba(255,255,255,0.04);
+    transition: 0.25s;
+    cursor: pointer;
+}
+
+.video-item:hover {
+    background: rgba(214,174,85,0.05);
+}
+
+.video-item.active {
+    background: rgba(214,174,85,0.1);
+    border-right: 3px solid var(--gold);
+}
+
+.thumbnail {
+    height: 65px;
+    border-radius: 10px;
+    overflow: hidden;
+    position: relative;
+    background: #071b16;
+}
+
+.thumbnail img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.play-overlay {
+    position: absolute;
+    inset: 0;
+    display: grid;
+    place-items: center;
+    background: rgba(0,0,0,0.3);
+    color: white;
+    font-size: 23px;
+}
+
+.item-info {
+    min-width: 0;
+}
+
+.item-title {
+    font-size: 14px;
+    font-weight: bold;
+    margin-bottom: 7px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.item-meta {
+    color: var(--muted);
+    font-size: 11px;
+}
+
+.item-favorite {
+    width: 32px;
+    height: 32px;
+    border: 0;
+    border-radius: 50%;
+    background: transparent;
+    color: var(--muted);
+}
+
+.item-favorite.active {
+    color: #e8b0b0;
+}
+
+/* =========================================================
+   SECTION
+========================================================= */
+.section {
+    width: min(1400px, 94%);
+    margin: 25px auto 50px;
+}
+
+.section-title {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 18px;
+}
+
+.section-title h3 {
+    font-size: 22px;
+}
+
+.section-title span {
+    color: var(--muted);
+    font-size: 12px;
+}
+
+/* =========================================================
+   CARDS
+========================================================= */
+.cards {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 15px;
+}
+
+.info-card {
+    border: 1px solid var(--border);
+    border-radius: 20px;
+    background: var(--card);
+    padding: 22px;
+    min-height: 145px;
+    transition: 0.3s;
+}
+
+.info-card:hover {
+    transform: translateY(-5px);
+    border-color: rgba(214,174,85,0.45);
+}
+
+.info-icon {
+    font-size: 27px;
+    color: var(--gold2);
+    margin-bottom: 14px;
+}
+
+.info-card h4 {
+    margin-bottom: 8px;
+}
+
+.info-card p {
+    color: var(--muted);
+    font-size: 12px;
+    line-height: 1.7;
+}
+
+/* =========================================================
+   EMPTY
+========================================================= */
+.empty {
+    padding: 50px 20px;
+    text-align: center;
+    color: var(--muted);
+}
+
+.empty-icon {
+    font-size: 45px;
+    margin-bottom: 15px;
+    color: var(--gold);
+}
+
+/* =========================================================
+   TOAST
+========================================================= */
+.toast {
+    position: fixed;
+    bottom: 25px;
+    right: 25px;
+    z-index: 500;
+    padding: 14px 20px;
+    background: #102e25;
+    border: 1px solid var(--gold);
+    color: var(--text);
+    border-radius: 13px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+    transform: translateY(100px);
+    opacity: 0;
+    transition: 0.3s;
+}
+
+.toast.show {
+    transform: translateY(0);
+    opacity: 1;
+}
+
+/* =========================================================
+   FOOTER
+========================================================= */
+footer {
+    border-top: 1px solid var(--border);
+    padding: 30px 20px;
+    text-align: center;
+    color: var(--muted);
+    font-size: 12px;
+}
+
+.footer-title {
+    color: var(--gold2);
+    font-size: 16px;
+    margin-bottom: 8px;
+}
+
+/* =========================================================
+   RESPONSIVE
+========================================================= */
+@media (max-width: 1050px) {
+    .controls {
+        grid-template-columns: 1fr 1fr;
+    }
+
+    .main {
+        grid-template-columns: 1fr;
+    }
+
+    .playlist-card {
+        max-height: 550px;
+    }
+
+    .cards {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (max-width: 650px) {
+    .header-inner {
+        min-height: 68px;
+    }
+
+    .logo-text h1 {
+        font-size: 15px;
+    }
+
+    .logo-text span {
+        display: none;
+    }
+
+    .logo-icon {
+        width: 40px;
+        height: 40px;
+        font-size: 20px;
+    }
+
+    .hero {
+        padding: 30px 22px;
+        min-height: 240px;
+        border-radius: 22px;
+    }
+
+    .hero h2 {
+        font-size: 30px;
+    }
+
+    .controls {
+        grid-template-columns: 1fr;
+    }
+
+    .main {
+        width: 94%;
+    }
+
+    .player-card,
+    .playlist-card {
+        border-radius: 18px;
+    }
+
+    .video-title {
+        font-size: 19px;
+    }
+
+    .video-item {
+        grid-template-columns: 85px 1fr auto;
+    }
+
+    .thumbnail {
+        height: 58px;
+    }
+
+    .cards {
+        grid-template-columns: 1fr;
+    }
+}
+
+/* =========================================================
+   ANIMATION
+========================================================= */
+@keyframes fadeUp {
+    from {
+        opacity: 0;
+        transform: translateY(12px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.fade-up {
+    animation: fadeUp 0.5s ease;
+}
+
+/* =========================================================
+   LOADING
+========================================================= */
+.loading {
+    display: none;
+    padding: 40px;
+    text-align: center;
+}
+
+.loading.show {
+    display: block;
+}
+
+.spinner {
+    width: 35px;
+    height: 35px;
+    border: 3px solid rgba(214,174,85,0.2);
+    border-top-color: var(--gold);
+    border-radius: 50%;
+    animation: spin 0.8s linear infinite;
+    margin: auto;
+}
+
+@keyframes spin {
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+/* =========================================================
+   CUSTOM VIDEO MESSAGE
+========================================================= */
+.video-placeholder {
+    position: absolute;
+    inset: 0;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    color: white;
+    background:
+        radial-gradient(circle, rgba(214,174,85,0.12), transparent 40%),
+        #06130f;
+    text-align: center;
+    padding: 20px;
+}
+
+.video-placeholder.show {
+    display: flex;
+}
+
+.video-placeholder .big {
+    font-size: 55px;
+    margin-bottom: 10px;
+    color: var(--gold);
+}
+
+.video-placeholder p {
+    color: #aaa;
+    font-size: 13px;
+}
+
+/* =========================================================
+   TOP DECORATION
+========================================================= */
+.decor-line {
+    width: 100%;
+    height: 1px;
+    background: linear-gradient(
+        90deg,
+        transparent,
+        var(--gold),
+        transparent
+    );
+    opacity: 0.5;
+    margin: 15px 0;
+}
+</style>
+</head>
+
+<body>
+
+<div class="background"></div>
+
+<!-- =======================================================
+     HEADER
+======================================================= -->
+<header>
+    <div class="header-inner">
+
+        <div class="logo">
+            <div class="logo-icon">۞</div>
+
+            <div class="logo-text">
+                <h1>مصحف الفيديو</h1>
+                <span>تطوير: محمود عمارة</span>
+            </div>
+        </div>
+
+        <div class="header-actions">
+            <button
+                class="icon-btn"
+                id="themeButton"
+                title="الوضع الليلي"
+                onclick="toggleTheme()">
+                ☀
+            </button>
+
+            <button
+                class="icon-btn"
+                title="المفضلة"
+                onclick="showFavorites()">
+                ♥
+            </button>
+        </div>
+
+    </div>
+</header>
+
+<!-- =======================================================
+     HERO
+======================================================= -->
+<section class="hero">
+
+    <div class="hero-content">
+
+        <div class="hero-label">
+            بِسْمِ اللَّهِ الرَّحْمَٰنِ الرَّحِيمِ
+        </div>
+
+        <h2>
+            استمع إلى القرآن الكريم
+            <br>
+            وتدبر آياته
+        </h2>
+
+        <div class="decor-line"></div>
+
+        <p>
+            مكتبة فيديوهات قرآنية بتصميم هادئ وسهل الاستخدام،
+            إعداد وتطوير محمود عمارة. يمكنك من خلالها البحث عن السور والقرّاء وتشغيل
+            الفيديوهات وحفظ ما تحبه في المفضلة.
+        </p>
+
+    </div>
+
+</section>
+
+<!-- =======================================================
+     SEARCH / FILTERS
+======================================================= -->
+<section class="controls">
+
+    <div class="search-box">
+
+        <span class="search-icon">⌕</span>
+
+        <input
+            type="text"
+            id="searchInput"
+            placeholder="ابحث باسم السورة أو القارئ..."
+            oninput="filterVideos()">
+
+    </div>
+
+    <div class="select-box">
+
+        <select id="surahFilter" onchange="filterVideos()">
+
+            <option value="">كل السور</option>
+
+            <option value="الفاتحة">الفاتحة</option>
+            <option value="البقرة">البقرة</option>
+            <option value="آل عمران">آل عمران</option>
+            <option value="النساء">النساء</option>
+            <option value="المائدة">المائدة</option>
+            <option value="الأنعام">الأنعام</option>
+            <option value="الأعراف">الأعراف</option>
+            <option value="الأنفال">الأنفال</option>
+            <option value="التوبة">التوبة</option>
+            <option value="يونس">يونس</option>
+            <option value="هود">هود</option>
+            <option value="يوسف">يوسف</option>
+            <option value="الرعد">الرعد</option>
+            <option value="إبراهيم">إبراهيم</option>
+            <option value="الحجر">الحجر</option>
+            <option value="النحل">النحل</option>
+            <option value="الإسراء">الإسراء</option>
+            <option value="الكهف">الكهف</option>
+            <option value="مريم">مريم</option>
+            <option value="طه">طه</option>
+            <option value="الأنبياء">الأنبياء</option>
+            <option value="الحج">الحج</option>
+            <option value="المؤمنون">المؤمنون</option>
+            <option value="النور">النور</option>
+            <option value="الفرقان">الفرقان</option>
+            <option value="الشعراء">الشعراء</option>
+            <option value="النمل">النمل</option>
+            <option value="القصص">القصص</option>
+            <option value="العنكبوت">العنكبوت</option>
+            <option value="الروم">الروم</option>
+            <option value="لقمان">لقمان</option>
+            <option value="السجدة">السجدة</option>
+            <option value="يس">يس</option>
+            <option value="الرحمن">الرحمن</option>
+            <option value="الواقعة">الواقعة</option>
+            <option value="الملك">الملك</option>
+            <option value="النبأ">النبأ</option>
+            <option value="النازعات">النازعات</option>
+            <option value="عبس">عبس</option>
+            <option value="التكوير">التكوير</option>
+            <option value="الانفطار">الانفطار</option>
+            <option value="المطففين">المطففين</option>
+            <option value="الانشقاق">الانشقاق</option>
+            <option value="البروج">البروج</option>
+            <option value="الطارق">الطارق</option>
+            <option value="الأعلى">الأعلى</option>
+            <option value="الغاشية">الغاشية</option>
+            <option value="الفجر">الفجر</option>
+            <option value="البلد">البلد</option>
+            <option value="الشمس">الشمس</option>
+            <option value="الليل">الليل</option>
+            <option value="الضحى">الضحى</option>
+            <option value="الشرح">الشرح</option>
+            <option value="التين">التين</option>
+            <option value="العلق">العلق</option>
+            <option value="القدر">القدر</option>
+            <option value="البينة">البينة</option>
+            <option value="الزلزلة">الزلزلة</option>
+            <option value="العاديات">العاديات</option>
+            <option value="القارعة">القارعة</option>
+            <option value="التكاثر">التكاثر</option>
+            <option value="العصر">العصر</option>
+            <option value="الهمزة">الهمزة</option>
+            <option value="الفيل">الفيل</option>
+            <option value="قريش">قريش</option>
+            <option value="الماعون">الماعون</option>
+            <option value="الكوثر">الكوثر</option>
+            <option value="الكافرون">الكافرون</option>
+            <option value="النصر">النصر</option>
+            <option value="المسد">المسد</option>
+            <option value="الإخلاص">الإخلاص</option>
+            <option value="الفلق">الفلق</option>
+            <option value="الناس">الناس</option>
+
+        </select>
+
+    </div>
+
+    <div class="select-box">
+
+        <select id="readerFilter" onchange="filterVideos()">
+
+            <option value="">كل القرّاء</option>
+            <option value="عبد الباسط عبد الصمد">
+                عبد الباسط عبد الصمد
+            </option>
+            <option value="مشاري العفاسي">
+                مشاري العفاسي
+            </option>
+            <option value="محمد صديق المنشاوي">
+                محمد صديق المنشاوي
+            </option>
+            <option value="محمود خليل الحصري">
+                محمود خليل الحصري
+            </option>
+            <option value="ياسر الدوسري">
+                ياسر الدوسري
+            </option>
+
+        </select>
+
+    </div>
+
+    <button
+        class="reset-btn"
+        onclick="resetFilters()">
+        إعادة ضبط
+    </button>
+
+</section>
+
+<!-- =======================================================
+     MAIN
+======================================================= -->
+<main class="main">
+
+    <!-- PLAYER -->
+    <section class="player-card">
+
+        <div class="player-top">
+
+            <video
+                id="videoPlayer"
+                controls
+                playsinline
+                preload="metadata">
+            </video>
+
+            <div
+                class="video-placeholder show"
+                id="videoPlaceholder">
+
+                <div class="big">۞</div>
+
+                <p>
+                    اختر فيديو من القائمة لبدء التشغيل
+                </p>
+
+            </div>
+
+        </div>
+
+        <div class="player-info">
+
+            <div class="now-playing">
+                يتم التشغيل الآن
+            </div>
+
+            <h2
+                class="video-title"
+                id="currentTitle">
+                اختر فيديو
+            </h2>
+
+            <div
+                class="video-meta"
+                id="currentMeta">
+                لم يتم اختيار فيديو حتى الآن
+            </div>
+
+            <div class="player-buttons">
+
+                <button
+                    class="control-btn"
+                    onclick="previousVideo()">
+                    السابق
+                </button>
+
+                <button
+                    class="control-btn"
+                    onclick="togglePlay()"
+                    id="playButton">
+                    تشغيل
+                </button>
+
+                <button
+                    class="control-btn"
+                    onclick="nextVideo()">
+                    التالي
+                </button>
+
+                <button
+                    class="control-btn"
+                    id="favoriteButton"
+                    onclick="toggleCurrentFavorite()">
+                    ♡ إضافة للمفضلة
+                </button>
+
+                <button
+                    class="control-btn"
+                    onclick="toggleFullscreen()">
+                    ⛶ ملء الشاشة
+                </button>
+
+            </div>
+
+        </div>
+
+    </section>
+
+    <!-- PLAYLIST -->
+    <aside class="playlist-card">
+
+        <div class="playlist-header">
+
+            <h3>قائمة التلاوات</h3>
+
+            <span
+                class="count"
+                id="videoCount">
+                0 فيديو
+            </span>
+
+        </div>
+
+        <div
+            class="playlist"
+            id="playlist">
+        </div>
+
+        <div
+            class="loading"
+            id="loading">
+            <div class="spinner"></div>
+        </div>
+
+    </aside>
+
+</main>
+
+<!-- =======================================================
+     INFORMATION
+======================================================= -->
+<section class="section">
+
+    <div class="section-title">
+
+        <h3>مكتبة القرآن الكريم</h3>
+
+        <span>
+            استمع وتدبر
+        </span>
+
+    </div>
+
+    <div class="cards">
+
+        <div class="info-card">
+
+            <div class="info-icon">📖</div>
+
+            <h4>السور</h4>
+
+            <p>
+                ابحث عن السورة التي تريدها بسهولة
+                من خلال قائمة السور أو مربع البحث.
+            </p>
+
+        </div>
+
+        <div class="info-card">
+
+            <div class="info-icon">🎙</div>
+
+            <h4>القرّاء</h4>
+
+            <p>
+                اختر القارئ المفضل لديك وشاهد
+                التلاوات المتاحة له.
+            </p>
+
+        </div>
+
+        <div class="info-card">
+
+            <div class="info-icon">♥</div>
+
+            <h4>المفضلة</h4>
+
+            <p>
+                احفظ التلاوات التي تحبها لتصل
+                إليها بسرعة في أي وقت.
+            </p>
+
+        </div>
+
+        <div class="info-card">
+
+            <div class="info-icon">🌙</div>
+
+            <h4>الوضع الليلي</h4>
+
+            <p>
+                تصميم مريح للعين ويمكن التبديل
+                بين الوضع الليلي والفاتح.
+            </p>
+
+        </div>
+
+    </div>
+
+</section>
+
+<!-- =======================================================
+     FOOTER
+======================================================= -->
+<footer>
+
+    <div class="footer-title">
+        مصحف الفيديو - تصميم وتطوير: محمود عمارة
+    </div>
+
+    <p>
+        اللهم اجعل القرآن ربيع قلوبنا ونور صدورنا
+    </p>
+
+</footer>
+
+<div
+    class="toast"
+    id="toast">
+</div>
+
+<!-- =======================================================
+     JAVASCRIPT & FIREBASE INTEGRATION
+======================================================= -->
+<script type="module">
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
+  import { getFirestore, collection, getDocs } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
+
+  // استبدل القيم أدناه ببيانات مشروعك الخاصة من لوحة تحكم Firebase
+  const firebaseConfig = {
+  apiKey: "AIzaSyCSWNi2IRMX_VkmwO-gz7qxn7-3uXMz3oY",
+  authDomain: "alamara-365d0.firebaseapp.com",
+  projectId: "alamara-365d0",
+  storageBucket: "alamara-365d0.firebasestorage.app",
+  messagingSenderId: "637853433673",
+  appId: "1:637853433673:web:0a70ccee8d14ed4524e498",
+  measurementId: "G-KDXY7H7BEE"
+};
+
+
+  const app = initializeApp(firebaseConfig);
+  const db = getFirestore(app);
+
+  // مصفوفة افتراضية كاحتياط في حال عدم الاتصال أو وجود بيانات محلية
+  let videos = [
+    {
+        id: 1,
+        title: "سورة الفاتحة",
+        surah: "الفاتحة",
+        reader: "عبد الباسط عبد الصمد",
+        duration: "00:45",
+        thumbnail: "https://images.unsplash.com/photo-1609599006353-e629aaabfeae?auto=format&fit=crop&w=500&q=80",
+        url: "https://interactive-examples.mdn.mozilla.net/media/cc0-videos/flower.mp4"
+    }
+  ];
+
+  let filteredVideos = [...videos];
+  let currentIndex = -1;
+  let favorites = JSON.parse(localStorage.getItem("quranFavorites") || "[]");
+
+  const playlist = document.getElementById("playlist");
+  const videoPlayer = document.getElementById("videoPlayer");
+  const currentTitle = document.getElementById("currentTitle");
+  const currentMeta = document.getElementById("currentMeta");
+  const videoCount = document.getElementById("videoCount");
+  const favoriteButton = document.getElementById("favoriteButton");
+  const playButton = document.getElementById("playButton");
+  const toast = document.getElementById("toast");
+  const placeholder = document.getElementById("videoPlaceholder");
+  const loadingElement = document.getElementById("loading");
+
+  // جلب الفيديوهات من فايربيس (Firestore)
+  async function fetchVideosFromFirebase() {
+    loadingElement.classList.add("show");
+    try {
+      const querySnapshot = await getDocs(collection(db, "videos"));
+      const firebaseVideos = [];
+      querySnapshot.forEach((doc) => {
+        firebaseVideos.push({ id: doc.id, ...doc.data() });
+      });
+
+      if (firebaseVideos.length > 0) {
+        videos = firebaseVideos;
+        filteredVideos = [...videos];
+        showToast("تم جلب التلاوات من قاعدة البيانات بنجاح");
+      }
+    } catch (error) {
+      console.log("خطأ في جلب البيانات من فايربيس، سيتم استخدام البيانات المحلية:", error);
+    } finally {
+      loadingElement.classList.remove("show");
+      renderVideos();
+    }
+  }
+
+  document.addEventListener("DOMContentLoaded", function() {
+    fetchVideosFromFirebase();
+    loadTheme();
+
+    videoPlayer.addEventListener("play", () => { playButton.textContent = "إيقاف"; });
+    videoPlayer.addEventListener("pause", () => { playButton.textContent = "تشغيل"; });
+    videoPlayer.addEventListener("ended", () => { nextVideo(); });
+  });
+
+  window.renderVideos = function() {
+    playlist.innerHTML = "";
+    videoCount.textContent = filteredVideos.length + " فيديو";
+
+    if (filteredVideos.length === 0) {
+        playlist.innerHTML = `
+            <div class="empty">
+                <div class="empty-icon">⌕</div>
+                <p>لا توجد نتائج مطابقة</p>
+            </div>
+        `;
+        return;
+    }
+
+    filteredVideos.forEach(function(video, index) {
+        const item = document.createElement("div");
+        item.className = "video-item";
+
+        if (currentIndex !== -1 && filteredVideos[currentIndex] && filteredVideos[currentIndex].id === video.id) {
+            item.classList.add("active");
+        }
+
+        const isFavorite = favorites.includes(video.id);
+
+        item.innerHTML = `
+            <div class="thumbnail">
+                <img src="${video.thumbnail}" alt="${escapeHtml(video.title)}" loading="lazy">
+                <div class="play-overlay">▶</div>
+            </div>
+            <div class="item-info">
+                <div class="item-title">${escapeHtml(video.title)}</div>
+                <div class="item-meta">${escapeHtml(video.reader)} • ${escapeHtml(video.duration)}</div>
+            </div>
+            <button class="item-favorite ${isFavorite ? "active" : ""}" title="المفضلة" onclick="favoriteFromList(event, '${video.id}')">
+                ${isFavorite ? "♥" : "♡"}
+            </button>
+        `;
+
+        item.addEventListener("click", function() {
+            playVideo(index);
+        });
+
+        playlist.appendChild(item);
+    });
+  }
+
+  window.playVideo = function(index) {
+    if (index < 0 || index >= filteredVideos.length) return;
+    currentIndex = index;
+    const video = filteredVideos[currentIndex];
+
+    placeholder.classList.remove("show");
+    videoPlayer.src = video.url;
+    videoPlayer.poster = video.thumbnail;
+    currentTitle.textContent = video.title;
+    currentMeta.textContent = "القارئ: " + video.reader + " • السورة: " + video.surah + " • المدة: " + video.duration;
+
+    updateFavoriteButton();
+    videoPlayer.load();
+    videoPlayer.play().catch(() => { showToast("اضغط تشغيل لبدء الفيديو"); });
+    renderVideos();
+  }
+
+  window.togglePlay = function() {
+    if (!videoPlayer.src) {
+        if (filteredVideos.length > 0) playVideo(0);
+        return;
+    }
+    if (videoPlayer.paused) videoPlayer.play();
+    else videoPlayer.pause();
+  }
+
+  window.nextVideo = function() {
+    if (filteredVideos.length === 0) return;
+    let next = currentIndex + 1;
+    if (next >= filteredVideos.length) next = 0;
+    playVideo(next);
+  }
+
+  window.previousVideo = function() {
+    if (filteredVideos.length === 0) return;
+    let previous = currentIndex - 1;
+    if (previous < 0) previous = filteredVideos.length - 1;
+    playVideo(previous);
+  }
+
+  window.filterVideos = function() {
+    const search = document.getElementById("searchInput").value.trim().toLowerCase();
+    const surah = document.getElementById("surahFilter").value;
+    const reader = document.getElementById("readerFilter").value;
+
+    filteredVideos = videos.filter(function(video) {
+        const text = (video.title + " " + video.surah + " " + video.reader).toLowerCase();
+        const matchSearch = !search || text.includes(search);
+        const matchSurah = !surah || video.surah === surah;
+        const matchReader = !reader || video.reader === reader;
+        return matchSearch && matchSurah && matchReader;
+    });
+
+    currentIndex = -1;
+    renderVideos();
+  }
+
+  window.resetFilters = function() {
+    document.getElementById("searchInput").value = "";
+    document.getElementById("surahFilter").value = "";
+    document.getElementById("readerFilter").value = "";
+    filteredVideos = [...videos];
+    currentIndex = -1;
+    renderVideos();
+    showToast("تم إعادة ضبط البحث");
+  }
+
+  window.toggleCurrentFavorite = function() {
+    if (currentIndex === -1) {
+        showToast("اختر فيديو أولاً");
+        return;
+    }
+    const video = filteredVideos[currentIndex];
+    toggleFavorite(video.id);
+  }
+
+  window.toggleFavorite = function(id) {
+    if (favorites.includes(id)) {
+        favorites = favorites.filter(item => item !== id);
+        showToast("تم حذف الفيديو من المفضلة");
+    } else {
+        favorites.push(id);
+        showToast("تمت إضافة الفيديو إلى المفضلة");
+    }
+
+    localStorage.setItem("quranFavorites", JSON.stringify(favorites));
+    updateFavoriteButton();
+    renderVideos();
+  }
+
+  window.favoriteFromList = function(event, id) {
+    event.stopPropagation();
+    // تحويل المعرف لرقم إذا كان مخزناً كرقم في الـ Array القديمة
+    const parsedId = isNaN(id) ? id : Number(id);
+    toggleFavorite(parsedId);
+  }
+
+  function updateFavoriteButton() {
+    if (currentIndex === -1) {
+        favoriteButton.textContent = "♡ إضافة للمفضلة";
+        return;
+    }
+    const video = filteredVideos[currentIndex];
+    if (favorites.includes(video.id)) {
+        favoriteButton.textContent = "♥ إزالة من المفضلة";
+        favoriteButton.classList.add("active");
+    } else {
+        favoriteButton.textContent = "♡ إضافة للمفضلة";
+        favoriteButton.classList.remove("active");
+    }
+  }
+
+  window.showFavorites = function() {
+    filteredVideos = videos.filter(video => favorites.includes(video.id));
+    currentIndex = -1;
+    renderVideos();
+    showToast("عرض الفيديوهات المفضلة");
+  }
+
+  window.toggleFullscreen = function() {
+    if (!document.fullscreenElement) {
+        if (videoPlayer.requestFullscreen) videoPlayer.requestFullscreen();
+        else showToast("المتصفح لا يدعم ملء الشاشة");
+    } else {
+        document.exitFullscreen();
+    }
+  }
+
+  window.toggleTheme = function() {
+    document.body.classList.toggle("light");
+    const isLight = document.body.classList.contains("light");
+    localStorage.setItem("quranTheme", isLight ? "light" : "dark");
+    document.getElementById("themeButton").textContent = isLight ? "☾" : "☀";
+  }
+
+  function loadTheme() {
+    const theme = localStorage.getItem("quranTheme");
+    if (theme === "light") {
+        document.body.classList.add("light");
+        document.getElementById("themeButton").textContent = "☾";
+    }
+  }
+
+  let toastTimer;
+  window.showToast = function(message) {
+    clearTimeout(toastTimer);
+    toast.textContent = message;
+    toast.classList.add("show");
+    toastTimer = setTimeout(() => { toast.classList.remove("show"); }, 2500);
+  }
+
+  function escapeHtml(value) {
+    return String(value)
+        .replaceAll("&", "&amp;")
+        .replaceAll("<", "&lt;")
+        .replaceAll(">", "&gt;")
+        .replaceAll('"', "&quot;")
+        .replaceAll("'", "&#039;");
+  }
+
+  document.addEventListener("keydown", function(event) {
+    if (event.target.tagName === "INPUT" || event.target.tagName === "SELECT") return;
+    if (event.code === "Space") {
+        event.preventDefault();
+        togglePlay();
+    }
+    if (event.code === "ArrowRight") nextVideo();
+    if (event.code === "ArrowLeft") previousVideo();
+  });
+</script>
+
+</body>
+</html>
