@@ -811,8 +811,8 @@ footer {
             <div class="logo-icon">۞</div>
 
             <div class="logo-text">
-                <h1>مصحف الفيديو</h1>
-                <span>تطوير: محمود عمارة</span>
+                <h1>صفحه الفارئ عبد الرحمن حسن </h1>
+                <span>تطوير: مهندس احمد ابو العز/span>
             </div>
         </div>
 
@@ -1009,11 +1009,11 @@ footer {
 
         <div class="player-top" id="playerContainer">
 
-            <!-- إطار عرض فيديوهات يوتيوب مباشرة -->
+            <!-- إطار عرض الفيديوهات (يوتيوب، فيسبوك، تيك توك) -->
             <iframe
                 id="videoIframe"
                 src=""
-                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
                 allowfullscreen
                 style="display: none;">
             </iframe>
@@ -1277,7 +1277,6 @@ footer {
       const firebaseVideos = [];
       querySnapshot.forEach((doc) => {
         const data = doc.data();
-        // دعم التوافق مع حقل url أو videoUrl القادم من لوحة التحكم
         firebaseVideos.push({ 
             id: doc.id, 
             ...data, 
@@ -1358,15 +1357,17 @@ footer {
     const video = filteredVideos[currentIndex];
 
     placeholder.classList.remove("show");
-
-    // التحقق مما إذا كان الرابط يتبع ليوتيوب وتحويله لعرض الفيديو مباشرة وتجهيز الرابط الأصلي تحته
     const rawUrl = video.url || "";
-    if (rawUrl.includes("youtube.com") || rawUrl.includes("youtu.be") || rawUrl.includes("youtube-nocookie.com")) {
-        videoPlayer.style.display = "none";
-        videoIframe.style.display = "block";
-        videoPlayer.pause();
+    
+    videoPlayer.style.display = "none";
+    videoIframe.style.display = "none";
+    videoPlayer.pause();
 
-        let embedUrl = rawUrl;
+    let embedUrl = "";
+
+    if (rawUrl.includes("youtube.com") || rawUrl.includes("youtu.be") || rawUrl.includes("youtube-nocookie.com")) {
+        // --- معالجة روابط يوتيوب ---
+        videoIframe.style.display = "block";
         let videoId = "";
         if (rawUrl.includes("embed/")) {
             videoId = rawUrl.split("embed/")[1].split("?")[0];
@@ -1380,27 +1381,44 @@ footer {
         }
         videoIframe.src = embedUrl;
         playButton.textContent = "إيقاف";
+
+    } else if (rawUrl.includes("facebook.com") || rawUrl.includes("fb.watch")) {
+        // --- معالجة روابط فيسبوك ---
+        videoIframe.style.display = "block";
+        let encodedUrl = encodeURIComponent(rawUrl);
+        embedUrl = `https://www.facebook.com/plugins/video.php?href=${encodedUrl}&show_text=false&width=500&autoplay=true`;
+        videoIframe.src = embedUrl;
+        playButton.textContent = "إيقاف";
+
+    } else if (rawUrl.includes("tiktok.com")) {
+        // --- معالجة روابط تيك توك ---
+        videoIframe.style.display = "block";
+        let tiktokMatch = rawUrl.match(/\/video\/(\d+)/);
+        if (tiktokMatch && tiktokMatch[1]) {
+            let tiktokId = tiktokMatch[1];
+            embedUrl = `https://www.tiktok.com/embed/v2/${tiktokId}`;
+        } else {
+            embedUrl = rawUrl;
+        }
+        videoIframe.src = embedUrl;
+        playButton.textContent = "إيقاف";
+
     } else {
-        videoIframe.style.display = "none";
+        // --- الفيديوهات المباشرة العادية (MP4) ---
         videoPlayer.style.display = "block";
         videoIframe.src = "";
         videoPlayer.src = rawUrl;
         videoPlayer.poster = video.thumbnail || "";
         videoPlayer.load();
         videoPlayer.play().catch(() => { showToast("اضغط تشغيل لبدء الفيديو"); });
+        playButton.textContent = "إيقاف";
     }
 
     currentTitle.textContent = video.title;
-    
-    // استخراج رابط يوتيوب نظيف وأساسي لعرضه تحت الفيديو مباشرة
-    let originalYouTubeLink = rawUrl;
-    if (originalYouTubeLink.includes("embed/")) {
-        originalYouTubeLink = originalYouTubeLink.replace("www.youtube.com/embed/", "www.youtube.com/watch?v=").replace("www.youtube-nocookie.com/embed/", "www.youtube.com/watch?v=");
-    }
 
     currentMeta.innerHTML = `
         القارئ: ${escapeHtml(video.reader || 'غير محدد')} • السورة: ${escapeHtml(video.surah || 'غير محدد')} • المدة: ${escapeHtml(video.duration || '00:00')}
-        ${originalYouTubeLink ? `<br><span style="color: var(--gold2); word-break: break-all; font-size: 12px; display: inline-block; margin-top: 5px;">رابط يوتيوب الأساسي: <a href="${originalYouTubeLink}" target="_blank" rel="noopener noreferrer" style="color: #60a5fa; text-decoration: underline;">🔗 ${originalYouTubeLink}</a></span>` : ''}
+        ${rawUrl ? `<br><span style="color: var(--gold2); word-break: break-all; font-size: 12px; display: inline-block; margin-top: 5px;">الرابط الأساسي: <a href="${rawUrl}" target="_blank" rel="noopener noreferrer" style="color: #60a5fa; text-decoration: underline;">🔗 ${rawUrl}</a></span>` : ''}
     `;
 
     updateFavoriteButton();
@@ -1413,8 +1431,8 @@ footer {
         return;
     }
     const video = filteredVideos[currentIndex];
-    if (video.url && (video.url.includes("youtube.com") || video.url.includes("youtu.be") || video.url.includes("youtube-nocookie.com"))) {
-        showToast("فيديوهات يوتيوب تعمل بالتحكم المباشر داخل المشغل");
+    if (video.url && (video.url.includes("youtube.com") || video.url.includes("youtu.be") || video.url.includes("facebook.com") || video.url.includes("tiktok.com"))) {
+        showToast("فيديوهات المنصات تعمل بالتحكم المباشر داخل المشغل");
         return;
     }
     if (videoPlayer.paused) videoPlayer.play();
